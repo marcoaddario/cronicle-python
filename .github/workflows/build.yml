@@ -20,7 +20,7 @@ jobs:
       - name: Get latest Cronicle release
         id: cronicle
         run: |
-          VERSION=$(curl -s https://api.github.com/repos/jhuckaby/Cronicle/releases/latest | jq -r .tag_name)
+          VERSION=$(curl -s https://api.github.com/repos/cronicle-edge/cronicle-edge/releases/latest | jq -r .tag_name)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Log in to GHCR
@@ -38,5 +38,5 @@ jobs:
           build-args: |
             CRONICLE_VERSION=${{ steps.cronicle.outputs.version }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/cronicle-python:${{ steps.cronicle.outputs.version }}
-            ghcr.io/${{ github.repository_owner }}/cronicle-python:latest
+            ghcr.io/${{ github.repository_owner }}/cronicle-edge-python:${{ steps.cronicle.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/cronicle-edge-python:latest
