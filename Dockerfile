@@ -13,4 +13,8 @@ RUN apk add --no-cache \
         build-base \
         libffi-dev
 
+# Ensure cronicle owns its own stuff
+RUN chown -R cronicle:cronicle \
+    /opt/cronicle
+    
 USER cronicle
