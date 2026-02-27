@@ -1,7 +1,7 @@
 # Dockerfile
 ARG CRONICLE_VERSION=latest
 
-FROM ghcr.io/jhuckaby/cronicle:${CRONICLE_VERSION}
+FROM ghcr.io/cronicle-edge/cronicle:${CRONICLE_VERSION}
 
 USER root
 
