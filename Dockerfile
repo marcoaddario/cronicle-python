@@ -11,10 +11,17 @@ RUN apk add --no-cache \
         python3-dev \
         py3-virtualenv \
         build-base \
-        libffi-dev
+        libffi-dev \
+        chromium \
+        chromium-chromedriver \
+        nss \
+        freetype \
+        harfbuzz \
+        ca-certificates \
+        ttf-freefont
 
 # Ensure cronicle owns its own stuff
-RUN chown -R cronicle:cronicle \
-    /opt/cronicle
+RUN mkdir -p /opt/cronicle.cache/selenium \
+    && chown -R cronicle:cronicle /opt/cronicle
     
 USER cronicle
