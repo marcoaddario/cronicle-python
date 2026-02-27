@@ -5,11 +5,12 @@ FROM ghcr.io/cronicle-edge/cronicle-edge:${CRONICLE_VERSION}
 
 USER root
 
-RUN apt-get update && \
-    apt-get install -y \
+RUN apk add --no-cache \
         python3 \
-        python3-venv \
-        python3-pip && \
-    rm -rf /var/lib/apt/lists/*
+        py3-pip \
+        python3-dev \
+        py3-virtualenv \
+        build-base \
+        libffi-dev
 
 USER cronicle
