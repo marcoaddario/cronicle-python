@@ -1,0 +1,42 @@
+name: Build Cronicle Python Image
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"   # every 6 hours
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Get latest Cronicle release
+        id: cronicle
+        run: |
+          VERSION=$(curl -s https://api.github.com/repos/jhuckaby/Cronicle/releases/latest | jq -r .tag_name)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          build-args: |
+            CRONICLE_VERSION=${{ steps.cronicle.outputs.version }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/cronicle-python:${{ steps.cronicle.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/cronicle-python:latest
